@@ -49,6 +49,16 @@ class Ui_Form(object):
         self.product_list.setGeometry(QtCore.QRect(0, 0, 261, 621))
         self.product_list.setObjectName("product_list")
 
+        self.product_list.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.listModel = QtGui.QStandardItemModel()
+        self.product_list.setModel(self.listModel)
+        self.product_list.clicked[QtCore.QModelIndex].connect(self.openSelectedClickListener)
+        item = QtGui.QStandardItem(f'test')
+        self.listModel.appendRow(item)
+
+        # fill the list view with the database names
+        # send a request to get all of the names
+
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -61,6 +71,11 @@ class Ui_Form(object):
         self.bidder_name.setPlaceholderText(_translate("Form", "Entrez votre nom"))
         self.label_3.setText(_translate("Form", "Prix  proposé"))
         self.bid_validation.setText(_translate("Form", "Valider"))
+    def openSelectedClickListener(self, index):
+        item = self.listModel.itemFromIndex(index)
+        self.product_name.setText(item.text())
+        ## update all the info from the database
+        #get requests loop
 
 
 if __name__ == "__main__":
