@@ -25,7 +25,8 @@ class Auction(Resource):
                                 return object, 200
                         else: abort(404, message="Could not find item with that id")
                 elif ID == 0:
-                        return database.keys(), 200
+                        keys={key:"0"for key in database.keys()}
+                        return keys, 200
                 else:
                         abort(406, message = "ID invalid")
                 
