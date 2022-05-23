@@ -2,12 +2,12 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 import json
 
+from numpy import unicode_
+
 app = Flask(__name__)
 api = Api(app)
 
-#database
-db = open("data.json", "r+")
-database = json.load(db)
+
 
 #parsers
 item_put_args = reqparse.RequestParser()
@@ -16,6 +16,10 @@ item_put_args.add_argument("prix_achat", type=int, help="Price item was bought f
 
 class Auction(Resource):
         def get(self, ID):
+                #database
+                with open("data.json", "r+",encoding="utf-8") as db : 
+                       database = json.load(db)
+                
                 if ID > 0:
                         #check if exists
                         idObj = f'{ID}'
@@ -30,6 +34,9 @@ class Auction(Resource):
                 
 
         def put(self, ID):
+                #database
+                with open("data.json", "r+",encoding="utf-8") as db : 
+                       database = json.load(db)
                 args = item_put_args.parse_args()
                 idObj = f'{ID}'
                 if idObj in database.keys():
@@ -37,8 +44,13 @@ class Auction(Resource):
                         object = database[idObj]
                         object["Acheteur"] = args["owner"]
                         object["Prix d'achat"] = args["prix_achat"]
-                        updt = json.dumps(database, indent=4)
-                        db.write(updt)
+                        #database
+                        db.close()
+                        with open("data.json", "r+",encoding="utf-8") as db : 
+                                updt = json.dumps(database, indent=4, ensure_ascii=False)
+                                print(updt)
+                                db.write(updt)
+                        
                         
                 else: abort(404, message="Could not find item with that id")
                 
