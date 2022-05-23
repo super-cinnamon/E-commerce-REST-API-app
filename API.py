@@ -11,8 +11,8 @@ database = json.load(db)
 
 #parsers
 item_put_args = reqparse.RequestParser()
-item_put_args.add_argument("owner", type=str, help="Name of the winning bidder")
-item_put_args.add_argument("prix_achat", type=int, help="Price item was bought for")
+item_put_args.add_argument("owner", type=str, help="Name of the winning bidder", location='form')
+item_put_args.add_argument("prix_achat", type=int, help="Price item was bought for", location='form')
 
 class Auction(Resource):
         def get(self, ID):
@@ -31,9 +31,9 @@ class Auction(Resource):
 
         def put(self, ID):
                 args = item_put_args.parse_args()
-                if ID in database.keys():
+                idObj = f'{ID}'
+                if idObj in database.keys():
                         #we update the boys
-                        idObj = f'{ID}'
                         object = database[idObj]
                         object["Acheteur"] = args["owner"]
                         object["Prix d'achat"] = args["prix_achat"]
