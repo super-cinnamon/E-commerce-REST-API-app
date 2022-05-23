@@ -48,8 +48,10 @@ class Auction(Resource):
                         db.close()
                         with open("data.json", "r+",encoding="utf-8") as db : 
                                 updt = json.dumps(database, indent=4, ensure_ascii=False)
+                                db.seek(0)
                                 print(updt)
                                 db.write(updt)
+                                db.truncate()
                         
                         
                 else: abort(404, message="Could not find item with that id")
