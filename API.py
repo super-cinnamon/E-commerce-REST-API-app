@@ -19,7 +19,7 @@ class Auction(Resource):
                 if ID > 0:
                         #check if exists
                         idObj = f'{ID}'
-                        if database[idObj]:
+                        if idObj in database.keys():
                                 object = {}                        
                                 object[idObj] = database[idObj]
                                 return object, 200
@@ -27,8 +27,6 @@ class Auction(Resource):
                 if ID == 0:
                         keys={key:"0"for key in database.keys()}
                         return keys, 200
-                else:
-                        abort(406, message = "ID invalid")
                 
 
         def put(self, ID):
