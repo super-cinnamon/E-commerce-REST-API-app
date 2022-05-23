@@ -20,7 +20,7 @@ class Auction(Resource):
                         #check if exists
                         idObj = f'{ID}'
                         if database[idObj]:
-                                object = {idObj}                        
+                                object = {}                        
                                 object[idObj] = database[idObj]
                                 return object, 200
                         else: abort(404, message="Could not find item with that id")
