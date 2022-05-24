@@ -29,7 +29,7 @@ class Auction(Resource):
                                 return object, 200
                         else: abort(404, message="Could not find item with that id")
                 if ID == 0:
-                        keys={key:"0"for key in database.keys()}
+                        keys={key:f"{database[key]['Name']}"for key in database.keys()}
                         return keys, 200
                 
 

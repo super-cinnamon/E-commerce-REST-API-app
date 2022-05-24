@@ -1,7 +1,13 @@
+from glob import glob
 from PyQt5 import QtWidgets, uic, QtGui,QtCore
 import sys
+import requests
+
+from test import BASE
 
 class Ui(QtWidgets.QMainWindow):
+    BASE = "http://127.0.0.1:5000/"
+    global listOfProducts
     def __init__(self):
         super(Ui, self).__init__()
         uic.loadUi('mainWindow.ui', self)
@@ -12,8 +18,7 @@ class Ui(QtWidgets.QMainWindow):
         self.listModel = QtGui.QStandardItemModel()
         self.product_list.setModel(self.listModel)
         self.product_list.clicked[QtCore.QModelIndex].connect(self.openSelectedClickListener)
-        item = QtGui.QStandardItem(f'test')
-        self.listModel.appendRow(item)
+        self.getAllProduct()
         
         #product image
         self.product_image=self.findChild(QtWidgets.QLabel,"product_image")
@@ -48,6 +53,20 @@ class Ui(QtWidgets.QMainWindow):
         self.product_name.setText(item.text())
         ## update all the info from the database
         #get requests loop
+        
+
+    def getAllProduct(self):
+        global BASE
+        global listOfProducts
+        response = requests.get(BASE + "auction/0", {})
+        listOfProducts=response.json()
+        i=1
+        while i <=len(listOfProducts):
+            item = QtGui.QStandardItem(listOfProducts[f'{i}'])
+            self.listModel.appendRow(item)
+            i+=1
+
+
         
 
 
