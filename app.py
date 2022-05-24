@@ -126,8 +126,8 @@ class Ui(QtWidgets.QMainWindow):
         key = f"{list(selectedProduct.keys())[0]}"
         dict = selectedProduct[key]
         if dict['Acheteur'] == 'NONE':
-            bid_validation.setEnabled(False)
-        else: bid_validation.setEnabled(True)
+            bid_validation.setEnabled(True)
+        else: bid_validation.setEnabled(False)
 
     def getAllProduct(self):
         global listOfProducts
