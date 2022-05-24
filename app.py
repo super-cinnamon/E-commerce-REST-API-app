@@ -23,7 +23,7 @@ def countdown():
     user = listOfUsers[-1]
     item = f"{int((list(selectedProduct.keys())[0]))}"
     owner = f"{list(user.keys())[0]}"
-    owner_id = f"'{user[owner]}'"
+    owner_id = f"{user[owner]}"
     owner_price = f"{user['prix_propose']}"
     print(item)
     print(owner_id)
@@ -31,13 +31,10 @@ def countdown():
     response = requests.put(BASE + f"auction/{item}", {"owner": owner_id, "prix_achat": owner_price})
     print(response.json())
     listOfUsers.clear()
-    msg = QtWidgets.QMessageBox()
-    msg.setIcon(QtWidgets.QMessageBox.Information)
-    msg.setText("PRODUIT ACHETE")
     msg.setInformativeText(f"Le produit a ete achete par : {owner_id} avec : {owner_price}DA")
-    msg.setWindowTitle("Congratulations !")
-    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-    msg.exec()
+    #msg.exec()
+    #msg.show()
+    
     ####### here we update the item
 
 
@@ -106,6 +103,13 @@ class Ui(QtWidgets.QMainWindow):
         #timer label 
         global timer_label
         timer_label = self.findChild(QtWidgets.QLabel,"timer_label")
+
+        global msg
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("PRODUIT ACHETE")
+        msg.setWindowTitle("Congratulations !")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
 
         self.show()
 
