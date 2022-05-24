@@ -2,9 +2,24 @@ from glob import glob
 from PyQt5 import QtWidgets, uic, QtGui,QtCore
 import sys
 import requests
-from sqlalchemy import false
+from time import sleep
+import threading
 
 from test import BASE
+
+def countdown():
+    global time_left
+    time_left = 30
+    while time_left != 0:
+        time_left = time_left - 1
+        #update the label
+        timer_label.setText(str(time_left))
+        sleep(1)
+    print("time is over, bidding for item has been closed")
+    bid_validation.setEnabled(False)
+
+
+    ####### here we update the item
 
 class Ui(QtWidgets.QMainWindow):
     BASE = "http://127.0.0.1:5000/"
@@ -54,15 +69,22 @@ class Ui(QtWidgets.QMainWindow):
         self.prix.setFont(QtGui.QFont('Arial', 8))
         
         #button to validate the bid
-        self.bid_validation = self.findChild(QtWidgets.QPushButton,"bid_validation")
-        self.bid_validation.setFont(QtGui.QFont('Arial', 10))
+        global bid_validation
+        bid_validation = self.findChild(QtWidgets.QPushButton,"bid_validation")
+        bid_validation.setFont(QtGui.QFont('Arial', 10))
+        bid_validation.clicked.connect(self.validateClickListener)
 
         #liste of bidders
         self.bidders_list = self.findChild(QtWidgets.QTableView,"bidders_list")
 
+        #timer label 
+        global timer_label
+        timer_label = self.findChild(QtWidgets.QLabel,"timer_label")
+
         self.show()
 
     def openSelectedClickListener(self, index):
+        ###### here we have to check if the item has been bought or not while updating the info
         global listOfProducts
         global selectedProduct
         item = self.listModel.itemFromIndex(index)
@@ -73,6 +95,7 @@ class Ui(QtWidgets.QMainWindow):
         self.product_desc.setText(selectedProduct[f'{keys[0]}']["Description"])
         self.prix_estime.setText("Prix estimé : "+selectedProduct[f'{keys[0]}']["Estimation"])
         self.product_image.setPixmap(QtGui.QPixmap(f"./images/{keys[0]}.png"))
+        ####### if the item already has an owner then make the buttons unusable 
         
 
     def getAllProduct(self):
@@ -86,6 +109,13 @@ class Ui(QtWidgets.QMainWindow):
             item.setFont(QtGui.QFont('Arial', 10))
             self.listModel.appendRow(item)
             i+=1
+    
+    def validateClickListener(slef):
+        global time_left
+        time_left = 30
+        timer_label.setText(str(time_left))
+        #here we will first add to the bidder list
+        pass
 
 
     
@@ -94,4 +124,8 @@ class Ui(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
+countdown_thread = threading.Thread(target = countdown)
+countdown_thread.start()
 app.exec_()
+
+### start the timer thread
