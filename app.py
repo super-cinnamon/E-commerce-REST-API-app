@@ -97,7 +97,7 @@ class Ui(QtWidgets.QMainWindow):
 
         global sold
         sold = self.findChild(QtWidgets.QLabel,"sold")
-        sold.setText("NON SOLD")
+        sold.setText("Pas encore vendu")
 
         #liste of bidders
         self.bidders_list = self.findChild(QtWidgets.QListView,"bidders_list")
