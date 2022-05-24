@@ -61,16 +61,6 @@
     <string>NAME</string>
    </property>
   </widget>
-  <widget class="QTableView" name="bidders_list">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>371</y>
-     <width>601</width>
-     <height>241</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="bidder_id">
    <property name="geometry">
     <rect>
@@ -185,6 +175,16 @@
    </property>
    <property name="text">
     <string>Timer</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="bidders_list">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>400</y>
+     <width>561</width>
+     <height>201</height>
+    </rect>
    </property>
   </widget>
  </widget>

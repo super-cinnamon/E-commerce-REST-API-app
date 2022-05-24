@@ -25,6 +25,9 @@ class Ui(QtWidgets.QMainWindow):
     BASE = "http://127.0.0.1:5000/"
     global listOfProducts
     global selectedProduct
+    selectedProduct=[]
+    global listOfUsers
+    listOfUsers=[]
     def __init__(self):
         super(Ui, self).__init__()
         uic.loadUi('mainWindow.ui', self)
@@ -75,7 +78,10 @@ class Ui(QtWidgets.QMainWindow):
         bid_validation.clicked.connect(self.validateClickListener)
 
         #liste of bidders
-        self.bidders_list = self.findChild(QtWidgets.QTableView,"bidders_list")
+        self.bidders_list = self.findChild(QtWidgets.QListView,"bidders_list")
+        self.bidders_list.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.bidders_listModel = QtGui.QStandardItemModel()
+        self.bidders_list.setModel(self.bidders_listModel)
 
         #timer label 
         global timer_label
@@ -92,8 +98,13 @@ class Ui(QtWidgets.QMainWindow):
         keys = [k for k, v in listOfProducts.items() if v == item.text()]
         response = requests.get(BASE + f"auction/{keys[0]}", {})
         selectedProduct=response.json()
+        
         self.product_desc.setText(selectedProduct[f'{keys[0]}']["Description"])
         self.prix_estime.setText("Prix estimé : "+selectedProduct[f'{keys[0]}']["Estimation"])
+        price=selectedProduct[f'{keys[0]}']["Estimation"].split("-")
+        price=int(int(price[0])/2)
+        print(price)
+        self.bidder_price.setMinimum(price)
         self.product_image.setPixmap(QtGui.QPixmap(f"./images/{keys[0]}.png"))
         ####### if the item already has an owner then make the buttons unusable 
         
@@ -110,8 +121,21 @@ class Ui(QtWidgets.QMainWindow):
             self.listModel.appendRow(item)
             i+=1
     
-    def validateClickListener(slef):
+    def validateClickListener(self):
         global time_left
+        global listOfUsers
+        if self.bidder_id.toPlainText()!="" and self.bidder_name.toPlainText()!="":
+            #on teste si il est dans la liste des users
+            if(len(listOfUsers) == 0 or int(self.bidder_id.toPlainText()) != int(list(listOfUsers[-1].keys())[0]) ):
+                listOfUsers.append({f"{self.bidder_id.toPlainText()}": f"{self.bidder_name.toPlainText()}"})
+                #on l'ajoute dans la liste des bidders  
+                item = QtGui.QStandardItem(f"ID {self.bidder_id.toPlainText()}\t|    Name : {self.bidder_name.toPlainText()}\t|    Prix proposé : {self.bidder_price.value()}")
+                item.setEditable(False)
+                item.setFont(QtGui.QFont('Arial', 10))
+                self.bidders_listModel.appendRow(item)
+        else :
+            QtWidgets.QMessageBox.about(self, "Alerte !", "Veuillez remplir vos informations s'il vous plaît.")
+
         time_left = 30
         timer_label.setText(str(time_left))
         #here we will first add to the bidder list
