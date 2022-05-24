@@ -2,6 +2,7 @@ from glob import glob
 from PyQt5 import QtWidgets, uic, QtGui,QtCore
 import sys
 import requests
+from sqlalchemy import false
 
 from test import BASE
 
@@ -27,21 +28,30 @@ class Ui(QtWidgets.QMainWindow):
         #description of the product
         self.product_desc=self.findChild(QtWidgets.QTextEdit,"product_desc")
         self.product_desc.setReadOnly(True)
+        self.product_desc.setFont(QtGui.QFont('Arial', 10))
 
         #the name of the product
         self.product_name = self.findChild(QtWidgets.QLabel,"product_name")
+        self.product_name.setFont(QtGui.QFont('Arial', 10))
+        self.product_name.setStyleSheet("font-weight: bold")
         
         #id of the bidder
         self.bidder_id = self.findChild(QtWidgets.QTextEdit,"bidder_id")
+        self.bidder_id.setFont(QtGui.QFont('Arial', 10))
         
         #name of the bidder
         self.bidder_name = self.findChild(QtWidgets.QTextEdit,"bidder_name")
+        self.bidder_name.setFont(QtGui.QFont('Arial', 10))
         
         #the suggested price 
         self.bidder_price = self.findChild(QtWidgets.QSpinBox,"bidder_price")
+        self.bidder_price.setFont(QtGui.QFont('Arial', 10))
+        self.prix = self.findChild(QtWidgets.QLabel,"prix")
+        self.prix.setFont(QtGui.QFont('Arial', 8))
         
         #button to validate the bid
         self.bid_validation = self.findChild(QtWidgets.QPushButton,"bid_validation")
+        self.bid_validation.setFont(QtGui.QFont('Arial', 10))
 
         #liste of bidders
         self.bidders_list = self.findChild(QtWidgets.QTableView,"bidders_list")
@@ -67,6 +77,8 @@ class Ui(QtWidgets.QMainWindow):
         i=1
         while i <=len(listOfProducts):
             item = QtGui.QStandardItem(listOfProducts[f'{i}'])
+            item.setEditable(False)
+            item.setFont(QtGui.QFont('Arial', 10))
             self.listModel.appendRow(item)
             i+=1
 
