@@ -30,6 +30,7 @@ def countdown():
     print(owner_price)
     response = requests.put(BASE + f"auction/{item}", {"owner": owner_id, "prix_achat": owner_price})
     print(response.json())
+    listOfUsers.clear()
     ####### here we update the item
 
 
