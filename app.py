@@ -1,4 +1,5 @@
 from glob import glob
+from traceback import print_exc
 from PyQt5 import QtWidgets, uic, QtGui,QtCore
 import sys
 import requests
@@ -10,6 +11,7 @@ from test import BASE
 
 def countdown():
     global time_left
+    global sold
     time_left = 30
     while time_left != 0:
         time_left = time_left - 1
@@ -18,6 +20,7 @@ def countdown():
         sleep(1)
     print("time is over, bidding for item has been closed")
     bid_validation.setEnabled(False)
+    
     print(selectedProduct)
     print(listOfUsers[-1])
     user = listOfUsers[-1]
@@ -28,16 +31,10 @@ def countdown():
     print(item)
     print(owner_id)
     print(owner_price)
+    sold.setText(f"Produit vendu avec : {owner_price}DA")
     response = requests.put(BASE + f"auction/{item}", {"owner": owner_id, "prix_achat": owner_price})
     print(response.json())
     listOfUsers.clear()
-    msg = QtWidgets.QMessageBox()
-    msg.setIcon(QtWidgets.QMessageBox.Information)
-    msg.setText("PRODUIT ACHETE")
-    msg.setInformativeText(f"Le produit a ete achete par : {owner_id} avec : {owner_price}DA")
-    msg.setWindowTitle("Congratulations !")
-    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-    msg.exec()
     ####### here we update the item
 
 
@@ -47,6 +44,7 @@ class Ui(QtWidgets.QMainWindow):
     global selectedProduct
     selectedProduct=[]
     global listOfUsers
+    global soldProduct
     listOfUsers=[]
     def __init__(self):
         super(Ui, self).__init__()
@@ -97,6 +95,10 @@ class Ui(QtWidgets.QMainWindow):
         bid_validation.setFont(QtGui.QFont('Arial', 10))
         bid_validation.clicked.connect(self.validateClickListener)
 
+        global sold
+        sold = self.findChild(QtWidgets.QLabel,"sold")
+        sold.setText("Pas encore vendu")
+
         #liste of bidders
         self.bidders_list = self.findChild(QtWidgets.QListView,"bidders_list")
         self.bidders_list.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -120,7 +122,7 @@ class Ui(QtWidgets.QMainWindow):
         selectedProduct=response.json()
         
         self.product_desc.setText(selectedProduct[f'{keys[0]}']["Description"])
-        self.prix_estime.setText("Prix estimé : "+selectedProduct[f'{keys[0]}']["Estimation"])
+        self.prix_estime.setText("Prix estimé : "+selectedProduct[f'{keys[0]}']["Estimation"]+"DA")
         price=selectedProduct[f'{keys[0]}']["Estimation"].split("-")
         price=int(int(price[0])/2)
         print(price)
@@ -134,7 +136,14 @@ class Ui(QtWidgets.QMainWindow):
         dict = selectedProduct[key]
         if dict['Acheteur'] == 'NONE':
             bid_validation.setEnabled(True)
-        else: bid_validation.setEnabled(False)
+            sold.setText("Pas encore vendu")
+        else: 
+            bid_validation.setEnabled(False)
+            print(selectedProduct[f'{keys[0]}'])
+            prix=selectedProduct[f'{keys[0]}']["Prix d'achat"]
+            sold.setText(f"Produit vendu avec : {prix}DA")
+            
+            
 
     def getAllProduct(self):
         global listOfProducts
@@ -159,7 +168,7 @@ class Ui(QtWidgets.QMainWindow):
                     countdown_thread.start()
                 listOfUsers.append({f"{self.bidder_id.toPlainText()}": f"{self.bidder_name.toPlainText()}", "prix_propose" : f"{self.bidder_price.value()}"})
                 #on l'ajoute dans la liste des bidders  
-                item = QtGui.QStandardItem(f"ID {self.bidder_id.toPlainText()}\t|    Name : {self.bidder_name.toPlainText()}\t|    Prix proposé : {self.bidder_price.value()}")
+                item = QtGui.QStandardItem(f"ID {self.bidder_id.toPlainText()}\t|    Name : {self.bidder_name.toPlainText()}\t|    Prix proposé : {self.bidder_price.value()}DA")
                 item.setEditable(False)
                 item.setFont(QtGui.QFont('Arial', 10))
                 self.bidders_listModel.appendRow(item)

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>E-commerce</string>
   </property>
   <widget class="QLabel" name="product_image">
    <property name="geometry">
@@ -150,9 +150,9 @@
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>40</y>
+     <y>30</y>
      <width>51</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -185,6 +185,19 @@
      <width>561</width>
      <height>201</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sold">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>350</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
