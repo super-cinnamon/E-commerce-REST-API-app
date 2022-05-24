@@ -25,6 +25,10 @@ class Ui(QtWidgets.QMainWindow):
         #product image
         self.product_image=self.findChild(QtWidgets.QLabel,"product_image")
 
+        #prix estimé
+        self.prix_estime=self.findChild(QtWidgets.QLabel,"prix_estime")
+        self.prix_estime.setFont(QtGui.QFont('Arial', 9))
+
         #description of the product
         self.product_desc=self.findChild(QtWidgets.QTextEdit,"product_desc")
         self.product_desc.setReadOnly(True)
@@ -67,6 +71,7 @@ class Ui(QtWidgets.QMainWindow):
         response = requests.get(BASE + f"auction/{keys[0]}", {})
         selectedProduct=response.json()
         self.product_desc.setText(selectedProduct[f'{keys[0]}']["Description"])
+        self.prix_estime.setText("Prix estimé : "+selectedProduct[f'{keys[0]}']["Estimation"])
         self.product_image.setPixmap(QtGui.QPixmap(f"./images/{keys[0]}.png"))
         
 

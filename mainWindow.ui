@@ -143,6 +143,19 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLabel" name="prix_estime">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>240</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Prix estimé : </string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
