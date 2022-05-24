@@ -31,6 +31,13 @@ def countdown():
     response = requests.put(BASE + f"auction/{item}", {"owner": owner_id, "prix_achat": owner_price})
     print(response.json())
     listOfUsers.clear()
+    msg = QtWidgets.QMessageBox()
+    msg.setIcon(QtWidgets.QMessageBox.Information)
+    msg.setText("PRODUIT ACHETE")
+    msg.setInformativeText(f"Le produit a ete achete par : {owner_id} avec : {owner_price}DA")
+    msg.setWindowTitle("Congratulations !")
+    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+    msg.exec()
     ####### here we update the item
 
 
@@ -117,8 +124,8 @@ class Ui(QtWidgets.QMainWindow):
         price=selectedProduct[f'{keys[0]}']["Estimation"].split("-")
         price=int(int(price[0])/2)
         print(price)
-        self.bidder_price.setValue(price)
         self.bidder_price.setMinimum(price)
+        self.bidder_price.setValue(price)
         self.bidder_price.setMaximum(price+9999999)
         self.product_image.setPixmap(QtGui.QPixmap(f"./images/{keys[0]}.png"))
         ####### if the item already has an owner then make the buttons unusable
