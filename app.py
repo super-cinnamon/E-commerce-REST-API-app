@@ -23,7 +23,6 @@ class Ui(QtWidgets.QMainWindow):
         
         #product image
         self.product_image=self.findChild(QtWidgets.QLabel,"product_image")
-        self.product_image.setPixmap(QtGui.QPixmap("./images/10.png"))
 
         #description of the product
         self.product_desc=self.findChild(QtWidgets.QTextEdit,"product_desc")
