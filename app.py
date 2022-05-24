@@ -7,6 +7,7 @@ import threading
 
 from test import BASE
 
+
 def countdown():
     global time_left
     time_left = 30
@@ -17,9 +18,20 @@ def countdown():
         sleep(1)
     print("time is over, bidding for item has been closed")
     bid_validation.setEnabled(False)
-
-
+    print(selectedProduct)
+    print(listOfUsers[-1])
+    user = listOfUsers[-1]
+    item = f"{int((list(selectedProduct.keys())[0]))}"
+    owner = f"{list(user.keys())[0]}"
+    owner_id = f"'{user[owner]}'"
+    owner_price = f"{user['prix_propose']}"
+    print(item)
+    print(owner_id)
+    print(owner_price)
+    response = requests.put(BASE + f"auction/{item}", {"owner": owner_id, "prix_achat": owner_price})
+    print(response.json())
     ####### here we update the item
+
 
 class Ui(QtWidgets.QMainWindow):
     BASE = "http://127.0.0.1:5000/"
@@ -104,10 +116,17 @@ class Ui(QtWidgets.QMainWindow):
         price=selectedProduct[f'{keys[0]}']["Estimation"].split("-")
         price=int(int(price[0])/2)
         print(price)
+        self.bidder_price.setValue(price)
         self.bidder_price.setMinimum(price)
+        self.bidder_price.setMaximum(price+9999999)
         self.product_image.setPixmap(QtGui.QPixmap(f"./images/{keys[0]}.png"))
-        ####### if the item already has an owner then make the buttons unusable 
-        
+        ####### if the item already has an owner then make the buttons unusable
+        print(selectedProduct)
+        key = f"{list(selectedProduct.keys())[0]}"
+        dict = selectedProduct[key]
+        if dict['Acheteur'] == 'NONE':
+            bid_validation.setEnabled(False)
+        else: bid_validation.setEnabled(True)
 
     def getAllProduct(self):
         global listOfProducts
@@ -127,19 +146,25 @@ class Ui(QtWidgets.QMainWindow):
         if self.bidder_id.toPlainText()!="" and self.bidder_name.toPlainText()!="":
             #on teste si il est dans la liste des users
             if(len(listOfUsers) == 0 or int(self.bidder_id.toPlainText()) != int(list(listOfUsers[-1].keys())[0]) ):
-                listOfUsers.append({f"{self.bidder_id.toPlainText()}": f"{self.bidder_name.toPlainText()}"})
+                if len(listOfUsers) == 0:
+                    print("no users")
+                    countdown_thread.start()
+                listOfUsers.append({f"{self.bidder_id.toPlainText()}": f"{self.bidder_name.toPlainText()}", "prix_propose" : f"{self.bidder_price.value()}"})
                 #on l'ajoute dans la liste des bidders  
                 item = QtGui.QStandardItem(f"ID {self.bidder_id.toPlainText()}\t|    Name : {self.bidder_name.toPlainText()}\t|    Prix proposé : {self.bidder_price.value()}")
                 item.setEditable(False)
                 item.setFont(QtGui.QFont('Arial', 10))
                 self.bidders_listModel.appendRow(item)
+               
+                time_left = 30
+                timer_label.setText(str(time_left))
+                self.bidder_price.setMinimum(self.bidder_price.value()+1)
+                self.bidder_price.setMaximum(self.bidder_price.value()+9999999)
         else :
             QtWidgets.QMessageBox.about(self, "Alerte !", "Veuillez remplir vos informations s'il vous plaît.")
 
-        time_left = 30
-        timer_label.setText(str(time_left))
         #here we will first add to the bidder list
-        pass
+        
 
 
     
@@ -148,8 +173,8 @@ class Ui(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
+global countdown_thread
 countdown_thread = threading.Thread(target = countdown)
-countdown_thread.start()
 app.exec_()
 
 ### start the timer thread
