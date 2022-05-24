@@ -8,6 +8,7 @@ from test import BASE
 class Ui(QtWidgets.QMainWindow):
     BASE = "http://127.0.0.1:5000/"
     global listOfProducts
+    global selectedProduct
     def __init__(self):
         super(Ui, self).__init__()
         uic.loadUi('mainWindow.ui', self)
@@ -49,14 +50,18 @@ class Ui(QtWidgets.QMainWindow):
         self.show()
 
     def openSelectedClickListener(self, index):
+        global listOfProducts
+        global selectedProduct
         item = self.listModel.itemFromIndex(index)
         self.product_name.setText(item.text())
-        ## update all the info from the database
-        #get requests loop
+        keys = [k for k, v in listOfProducts.items() if v == item.text()]
+        response = requests.get(BASE + f"auction/{keys[0]}", {})
+        selectedProduct=response.json()
+        self.product_desc.setText(selectedProduct[f'{keys[0]}']["Description"])
+        self.product_image.setPixmap(QtGui.QPixmap(f"./images/{keys[0]}.png"))
         
 
     def getAllProduct(self):
-        global BASE
         global listOfProducts
         response = requests.get(BASE + "auction/0", {})
         listOfProducts=response.json()
@@ -67,7 +72,7 @@ class Ui(QtWidgets.QMainWindow):
             i+=1
 
 
-        
+    
 
 
 
