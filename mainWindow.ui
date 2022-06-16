@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>E-commerce</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 246, 220)</string>
+  </property>
   <widget class="QLabel" name="product_image">
    <property name="geometry">
     <rect>
@@ -21,6 +24,12 @@
      <width>241</width>
      <height>211</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
    </property>
    <property name="text">
     <string/>
@@ -38,6 +47,16 @@
      <height>151</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border-color: rgb(56, 53, 40);
+font: 12pt &quot;Tw Cen MT&quot;;
+color: rgb(43, 29, 4);
+background-color: rgb(255, 253, 239);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
+   </property>
    <property name="readOnly">
     <bool>true</bool>
    </property>
@@ -49,13 +68,17 @@
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>50</y>
+     <y>40</y>
      <width>171</width>
      <height>31</height>
     </rect>
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);
+font: 12pt &quot;Tw Cen MT&quot;;</string>
    </property>
    <property name="text">
     <string>NAME</string>
@@ -70,6 +93,16 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);
+font: 11pt &quot;Tw Cen MT&quot;;
+border-color: rgb(43, 29, 4);
+background-color: rgb(255, 253, 239);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
+   </property>
    <property name="placeholderText">
     <string>Entrez votre id</string>
    </property>
@@ -82,6 +115,16 @@
      <width>181</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);
+font: 11pt &quot;Tw Cen MT&quot;;
+border-color: rgb(43, 29, 4);
+background-color: rgb(255, 253, 239);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
    </property>
    <property name="placeholderText">
     <string>Entrez votre nom</string>
@@ -96,6 +139,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 253, 239);
+font: 11pt &quot;Tw Cen MT&quot;;
+border-color: rgb(43, 29, 4);
+color: rgb(43, 29, 4);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
+   </property>
+   <property name="suffix">
+    <string> DA</string>
+   </property>
   </widget>
   <widget class="QLabel" name="prix">
    <property name="geometry">
@@ -106,6 +162,10 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);
+font: 11pt &quot;Tw Cen MT&quot;;</string>
+   </property>
    <property name="text">
     <string>Prix  proposé</string>
    </property>
@@ -113,11 +173,21 @@
   <widget class="QPushButton" name="bid_validation">
    <property name="geometry">
     <rect>
-     <x>710</x>
+     <x>694</x>
      <y>310</y>
-     <width>75</width>
+     <width>91</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(232, 219, 173);
+border-color: rgb(43, 29, 4);
+font: 13pt &quot;Tw Cen MT&quot;;
+color: rgb(43, 29, 4);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
    </property>
    <property name="text">
     <string>Valider</string>
@@ -128,19 +198,32 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>261</width>
-     <height>621</height>
+     <width>251</width>
+     <height>611</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 253, 239);
+font: 11pt &quot;Tw Cen MT&quot;;
+border-color: rgb(43, 29, 4);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
    </property>
   </widget>
   <widget class="QLabel" name="prix_estime">
    <property name="geometry">
     <rect>
-     <x>650</x>
-     <y>240</y>
+     <x>640</x>
+     <y>250</y>
      <width>201</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);
+font: 11pt &quot;Tw Cen MT&quot;;</string>
    </property>
    <property name="text">
     <string>Prix estimé : </string>
@@ -157,8 +240,15 @@
    </property>
    <property name="font">
     <font>
+     <family>Tw Cen MT</family>
      <pointsize>25</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(170, 0, 0);
+font: 25pt &quot;Tw Cen MT&quot;;</string>
    </property>
    <property name="text">
     <string>30</string>
@@ -173,6 +263,10 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);
+font: 14pt &quot;Tw Cen MT&quot;;</string>
+   </property>
    <property name="text">
     <string>Timer</string>
    </property>
@@ -186,15 +280,28 @@
      <height>201</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 253, 239);
+font: 12pt &quot;Tw Cen MT&quot;;
+color: rgb(43, 29, 4);
+border-color: rgb(43, 29, 4);
+border-width:2px;
+border-radius:10px;
+border-width:0.5px;
+border-style:outset;</string>
+   </property>
   </widget>
   <widget class="QLabel" name="sold">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>350</y>
+     <x>660</x>
+     <y>360</y>
      <width>201</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(43, 29, 4);</string>
    </property>
    <property name="text">
     <string/>
