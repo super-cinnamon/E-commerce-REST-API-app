@@ -7,8 +7,6 @@ from numpy import unicode_
 app = Flask(__name__)
 api = Api(app)
 
-
-
 #parsers
 item_put_args = reqparse.RequestParser()
 item_put_args.add_argument("owner", type=str, help="Name of the winning bidder", location='form')
@@ -34,7 +32,6 @@ class Auction(Resource):
                 if ID == 0:
                         keys={key:f"{database[key]['Name']}"for key in database.keys()}
                         return keys, 200
-                
 
         def put(self, ID):
                 #database
@@ -88,14 +85,11 @@ class Auction(Resource):
                 if idObj not in database.keys():
                         database[f"{idObj}"]=item
                         with open("data.json", "r+",encoding="utf-8") as db : 
-                                        updt = json.dumps(database, indent=4, ensure_ascii=False)
-                                        db.seek(0)
-                                        db.write(updt)
-                                        db.truncate()
-                else :  abort(409, message="Diri Conflict detected, this element already exists") 
-                
-                
-
+                                updt = json.dumps(database, indent=4, ensure_ascii=False)
+                                db.seek(0)
+                                db.write(updt)
+                                db.truncate()
+                else :  abort(409, message="Conflict detected, this element already exists") 
 
 api.add_resource(Auction, "/auction/<int:ID>")
 

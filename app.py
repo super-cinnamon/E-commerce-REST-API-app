@@ -184,10 +184,6 @@ class Ui(QtWidgets.QMainWindow):
         
 
 
-    
-
-
-
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
 global countdown_thread
