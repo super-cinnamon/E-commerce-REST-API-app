@@ -26,10 +26,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-width:2px;
-border-radius:10px;
-border-width:0.5px;
-border-style:outset;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
