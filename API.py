@@ -82,6 +82,7 @@ class Auction(Resource):
                         "Acheteur":  f"{args['owner']}",
                         "Prix d'achat": f"{args['prix_achat']}"}
                 idObj = f'{ID}'
+                maxID = max(database, key=database.get)
                 if idObj not in database.keys():
                         database[f"{idObj}"]=item
                         with open("data.json", "r+",encoding="utf-8") as db : 
